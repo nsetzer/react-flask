@@ -3,18 +3,27 @@
 
 In the project directory, you can run:
 
-### `npm start`
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Production Builds
+  npm run build
+  PORT=8080 python app.py
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
+  browse to localhost:8080
 
-### `npm test`
+## Dev Builds
+    npm install
+  start the front end
+    npm start
+  start the backend
+    python app.py
 
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](#running-tests) for more information.
+  front end is listening on port 4100 and the backend is listening on port 4200
 
-### `npm run build`
+  browse to localhost:4100
+
+## Test
+
+npm test
+
+
 

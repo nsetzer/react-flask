@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+import env from '../env';
 
 class RandomService {
 
@@ -8,7 +9,7 @@ class RandomService {
     }
 
     async getRandomInt() {
-        let res = await axios.get('http://localhost:4200/api/random');
+        let res = await axios.get(env.baseUrl + '/api/random');
         return res.data/*.then(
           (res) => {
             console.log(res.data)

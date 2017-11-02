@@ -3,6 +3,7 @@ import logo from '../svg/logo.svg';
 import './App.css';
 
 import RandomService from '../service/random'
+import env from '../env'
 
 class App extends Component {
 
@@ -15,6 +16,8 @@ class App extends Component {
   async handleClick() {
     let res = await RandomService.getRandomInt();
     this.setState({"value": res.value});
+    console.log(process.env.NODE_ENV)
+    console.log(env.baseUrl)
   }
 
   render() {
