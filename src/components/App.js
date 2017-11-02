@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom'
+
 import logo from '../svg/logo.svg';
 import './App.css';
 
@@ -27,6 +29,12 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
+
+        <p>
+        <Link to="/login">Login </Link>
+
+        <Link to="/about/react">About</Link>
+        </p>
         <p className="App-intro">
           Your App is Now Running
           To get started, edit <code>src/App.js</code> and save to reload.
@@ -35,6 +43,7 @@ class App extends Component {
         <h2> Get Random Int From Server</h2>
         <button onClick={this.handleClick}>Click Me</button>
         <p>{this.state.value}</p>
+
       </div>
     );
   }
