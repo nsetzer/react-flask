@@ -6,11 +6,15 @@ import RandomService from '../service/random'
 
 class App extends Component {
 
-  async handleClick() {
-    console.log("handle click");
-    let cls = new RandomService();
+  constructor(props) {
+    super(props);
+    this.state = {value: 0};
+    this.handleClick = this.handleClick.bind(this)
+  }
 
-    console.log(await cls.getRandomInt())
+  async handleClick() {
+    let res = await RandomService.getRandomInt();
+    this.setState({"value": res.value});
   }
 
   render() {
@@ -25,7 +29,9 @@ class App extends Component {
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
 
-        <button onClick={this.handleClick}>Button</button>
+        <h2> Get Random Int From Server</h2>
+        <button onClick={this.handleClick}>Click Me</button>
+        <p>{this.state.value}</p>
       </div>
     );
   }

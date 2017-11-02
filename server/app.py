@@ -7,6 +7,7 @@ from flask_cors import CORS
 from flask_bcrypt import Bcrypt
 from flask import jsonify
 import os,sys
+import random
 
 if not os.path.exists("./build"):
     sys.stderr.write("build directory not found\n")
@@ -41,7 +42,7 @@ def index():
 
 @app.route('/api/random', methods=['GET'])
 def random_int():
-    return jsonify({"value": 4});
+    return jsonify({"value": random.randint(0,100)});
 
 #@app.route("/api/user", methods=["GET"])
 #@requires_auth

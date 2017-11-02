@@ -1,12 +1,14 @@
 
-
-
 import axios from 'axios';
 
 class RandomService {
 
+    constructor() {
+        console.log("constructor for RandomService")
+    }
+
     async getRandomInt() {
-        let res = await axios.get('http://localhost:5000/api/random');
+        let res = await axios.get('http://localhost:4200/api/random');
         return res.data/*.then(
           (res) => {
             console.log(res.data)
@@ -16,4 +18,4 @@ class RandomService {
     }
 }
 
-export default RandomService;
+export default new RandomService();
