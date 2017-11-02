@@ -1,4 +1,4 @@
 
 from server.app import app
 
-app.run()
+app.run(host='localhost', port=4200)
