@@ -6,7 +6,17 @@ import { connect } from 'react-redux';
 import logo from '../svg/logo.svg';
 import './App.css';
 
+import RaisedButton from 'material-ui/RaisedButton';
+
 class MainView extends Component {
+
+  logout(e) {
+      e.preventDefault();
+      this.props.logoutAndRedirect(this.props);
+      this.setState({
+          open: false,
+      });
+  }
 
   render() {
     return (
@@ -18,12 +28,19 @@ class MainView extends Component {
         <p>
           Welcome, {this.props.userName}!
         </p>
+        <RaisedButton
+          style={{ marginTop: 50 }}
+          label="Logout"
+          onClick={(e) => this.logout(e)}
+        />
+
       </div>
     );
   }
 }
 
 MainView.propTypes = {
+  logoutAndRedirect: PropTypes.func,
   userName: PropTypes.string,
 };
 

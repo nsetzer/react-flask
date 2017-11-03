@@ -49,10 +49,10 @@ export function logout() {
     };
 }
 
-export function logoutAndRedirect() {
+export function logoutAndRedirect(props) {
     return (dispatch) => {
         dispatch(logout());
-        BrowserRouter.push('/');
+        props.history.push('/login');
     };
 }
 
