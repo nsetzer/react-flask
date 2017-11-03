@@ -7,12 +7,11 @@ from flask_bcrypt import Bcrypt
 from flask import jsonify
 import os,sys
 import random
-
-from .index import db, app
-
 from sqlalchemy.exc import IntegrityError
-from .models import User
+
 from .auth import generate_token, requires_auth, verify_token
+from .index import db, app
+from .models import User
 
 # serve the bundle
 @app.route('/', methods=['GET'])
@@ -58,6 +57,7 @@ def create_user():
 @app.route("/api/get_token", methods=["POST"])
 def get_token():
     incoming = request.get_json()
+    print(incoming)
     user = User.get_user_with_email_and_password(incoming["email"], incoming["password"])
     if user:
         return jsonify(token=generate_token(user))
