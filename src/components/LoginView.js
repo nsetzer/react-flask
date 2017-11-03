@@ -11,11 +11,6 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
-//import { loginUser } from '../actions/auth'
-
-//import logo from '../svg/logo.svg';
-import './App.css';
-
 const style = {
     marginTop: 50,
     paddingBottom: 50,
@@ -109,7 +104,8 @@ class LoginView extends Component {
   login(e) {
       e.preventDefault();
       console.log("log in user")
-      this.props.loginUser(this.state.email, this.state.password, this.state.redirectFail);
+      console.log(this.context)
+      this.props.loginUser(this.props, this.state.email, this.state.password, this.state.redirectSuccess);
   }
 
   render() {

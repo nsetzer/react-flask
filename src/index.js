@@ -6,6 +6,7 @@ import './index.css';
 import App from './components/App';
 import LoginView from './components/LoginView';
 import AboutView from './components/AboutView';
+import MainView from './components/MainView';
 import registerServiceWorker from './utils/registerServiceWorker';
 import { Provider } from 'react-redux';
 
@@ -26,6 +27,7 @@ ReactDOM.render((
         <Route exact path="/" component={App} />
         <Route exact path="/login" component={LoginView} />
         <Route exact path="/about/:topic" component={AboutView} />
+        <Route exact path="/main" component={MainView} />
       </div>
       </MuiThemeProvider>
    </Provider>

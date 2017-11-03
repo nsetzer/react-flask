@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import logo from '../svg/logo.svg';
 import './App.css';
 
-class AboutView extends Component {
+class MainView extends Component {
 
 /*
   constructor(props) {
@@ -19,14 +19,9 @@ class AboutView extends Component {
           <h1 className="App-title">Welcome to React</h1>
         </header>
         <p className="App-intro">
-          AboutView
+          MainView
         </p>
 
-        <ul>
-        <li><Link to="/">Home</Link></li>
-        </ul>
-
-        <h1>{this.props.match.params.topic}</h1>
 
         Lorem ipsum
 
@@ -36,4 +31,4 @@ class AboutView extends Component {
   }
 }
 
-export default AboutView;
+export default MainView;

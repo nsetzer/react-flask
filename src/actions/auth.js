@@ -62,8 +62,7 @@ export function redirectToRoute(route) {
     };
 }
 
-export function loginUser(email, password) {
-    console.log("loginUser")
+export function loginUser(props, email, password, target) {
     return function (dispatch) {
         dispatch(loginUserRequest());
         return get_token(email, password)
@@ -71,7 +70,8 @@ export function loginUser(email, password) {
             .then(response => {
                 try {
                     dispatch(loginUserSuccess(response.token));
-                    BrowserRouter.push('/main');
+                    //this.context.history.push('/main');
+                    props.history.push(target);
                 } catch (e) {
                     console.log(e);
                     dispatch(loginUserFailure({

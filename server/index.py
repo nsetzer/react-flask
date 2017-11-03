@@ -30,6 +30,6 @@ print(app.config['SQLALCHEMY_DATABASE_URI'])
 app.config['SECRET_KEY'] = "secret"
 
 #app.config.from_object(BaseConfig)
-db = SQLAlchemy(app)
+db     = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-CORS(app)
+cors   = CORS(app)
