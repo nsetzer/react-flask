@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
+
+import { connect } from 'react-redux';
 
 import logo from '../svg/logo.svg';
 import './App.css';
 
 import RandomService from '../service/random'
 import env from '../env'
+
 
 class App extends Component {
 
@@ -49,4 +53,21 @@ class App extends Component {
   }
 }
 
-export default App;
+
+App.propTypes = {
+};
+
+function mapStateToProps(state) {
+  return {
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    };
+}
+
+export default connect(
+  mapStateToProps,
+    mapDispatchToProps
+)(App);
