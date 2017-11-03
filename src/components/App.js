@@ -37,6 +37,8 @@ class App extends Component {
         <p>
         <Link to="/login">Login </Link>
 
+        <Link to="/register">Register </Link>
+
         <Link to="/about/react">About</Link>
         </p>
         <p className="App-intro">

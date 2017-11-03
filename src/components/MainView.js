@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 //import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
 
 import logo from '../svg/logo.svg';
 import './App.css';
 
 class MainView extends Component {
-
-/*
-  constructor(props) {
-    super(props);
-  }*/
 
   render() {
     return (
@@ -18,17 +15,29 @@ class MainView extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          MainView
+        <p>
+          Welcome, {this.props.userName}!
         </p>
-
-
-        Lorem ipsum
-
-
       </div>
     );
   }
 }
 
-export default MainView;
+MainView.propTypes = {
+  userName: PropTypes.string,
+};
+
+function mapStateToProps(state) {
+  return {
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {
+    };
+}
+
+export default connect(
+  mapStateToProps,
+    mapDispatchToProps
+)(MainView);

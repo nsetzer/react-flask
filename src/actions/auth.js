@@ -122,7 +122,7 @@ export function registerUserFailure(error) {
     };
 }
 
-export function registerUser(email, password) {
+export function registerUser(props, email, password, target) {
     return function (dispatch) {
         dispatch(registerUserRequest());
         return create_user(email, password)
@@ -130,7 +130,7 @@ export function registerUser(email, password) {
             .then(response => {
                 try {
                     dispatch(registerUserSuccess(response.token));
-                    BrowserRouter.push('/main');
+                    props.history.push(target);
                 } catch (e) {
                     dispatch(registerUserFailure({
                         response: {

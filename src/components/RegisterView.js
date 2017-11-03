@@ -20,7 +20,7 @@ const style = {
     display: 'inline-block',
 };
 
-class LoginView extends Component {
+class RegisterView extends Component {
 
   constructor(props) {
         super(props);
@@ -29,6 +29,7 @@ class LoginView extends Component {
         this.state = {
             email: '',
             password: '',
+            verify_password: '',
             email_error_text: null,
             password_error_text: null,
             redirectFail: redirectFail,
@@ -76,7 +77,6 @@ class LoginView extends Component {
 
     }
 
-    console.log(email_is_valid + " " + password_is_valid)
     if (email_is_valid && password_is_valid) {
         this.setState({
             disabled: false,
@@ -103,22 +103,20 @@ class LoginView extends Component {
 
   login(e) {
       e.preventDefault();
-      console.log("log in user")
-      console.log(this.context)
-      this.props.loginUser(this.props, this.state.email, this.state.password, this.state.redirectSuccess);
+      this.props.registerUser(this.props, this.state.email, this.state.password, this.state.redirectSuccess);
   }
 
   render() {
     return (
       <div className="col-xs-12 col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
         <Paper style={style}>
+          <h2>Register</h2>
           {
-              this.props.statusText &&
+              this.props.registerStatusText &&
                   <div className="alert alert-info">
-                      {this.props.statusText}
+                      {this.props.registerStatusText}
                   </div>
           }
-          <h2>Login</h2>
           <form>
             <div className="col-md-12">
                 <TextField
@@ -152,15 +150,15 @@ class LoginView extends Component {
   }
 };
 
-LoginView.propTypes = {
-    loginUser: PropTypes.func,
-    statusText: PropTypes.string,
+RegisterView.propTypes = {
+    registerUser: PropTypes.func,
+    registerStatusText: PropTypes.string,
 };
 
 function mapStateToProps(state) {
     return {
-        isAuthenticating: state.auth.isAuthenticating,
-        statusText: state.auth.statusText,
+        isRegistering: state.auth.isRegistering,
+        registerStatusText: state.auth.registerStatusText,
     };
 }
 
@@ -168,9 +166,7 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-
-
 export default connect(
   mapStateToProps,
     mapDispatchToProps
-)(LoginView);
+)(RegisterView);
