@@ -8,6 +8,7 @@ import LoginView from './components/LoginView';
 import AboutView from './components/AboutView';
 import MainView from './components/MainView';
 import RegisterView from './components/RegisterView';
+import TestView from './components/TestView';
 import registerServiceWorker from './utils/registerServiceWorker';
 import { Provider } from 'react-redux';
 
@@ -33,6 +34,7 @@ ReactDOM.render((
         <Route exact path="/register" component={RegisterView} />
         <Route exact path="/about/:topic" component={AboutView} />
         <Route exact path="/main" component={requireAuthentication(MainView)} />
+        <Route exact path="/test" component={TestView} />
       </div>
       </MuiThemeProvider>
    </Provider>

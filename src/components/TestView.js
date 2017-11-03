@@ -11,7 +11,7 @@ import RandomService from '../service/random'
 import env from '../env'
 
 
-class App extends Component {
+class TestView extends Component {
 
   constructor(props) {
     super(props);
@@ -35,21 +35,24 @@ class App extends Component {
         </header>
         <br/>
         <p>
+        <Link to="/">&nbsp;Home&nbsp;</Link>
         <Link to="/login">&nbsp;Login&nbsp;</Link>
         <Link to="/register">&nbsp;Register&nbsp;</Link>
-        <Link to="/test">&nbsp;Test&nbsp;</Link>
         </p>
-        <p className="App-intro">
-          Your App is Now Running<br/>
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+
+        <h2> Get Random Int From Server</h2>
+        <button onClick={this.handleClick}>Click Me</button>
+        <p>{this.state.value}</p>
+
+        <h2> Test Database Access</h2>
+        <p>todo</p>
       </div>
     );
   }
 }
 
 
-App.propTypes = {
+TestView.propTypes = {
 };
 
 function mapStateToProps(state) {
@@ -65,4 +68,4 @@ function mapDispatchToProps(dispatch) {
 export default connect(
   mapStateToProps,
     mapDispatchToProps
-)(App);
+)(TestView);

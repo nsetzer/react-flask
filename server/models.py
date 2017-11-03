@@ -1,4 +1,4 @@
-from index import db, bcrypt
+from .index import db, bcrypt
 
 
 class User(db.Model):
@@ -13,6 +13,11 @@ class User(db.Model):
 
     @staticmethod
     def hashed_password(password):
+        # Note:
+        # I had an error in python3 related to this function
+        # AttributeError: 'module' object has no attribute 'ffi'
+        # I uninstalled bcrypt py-bcrypt flask_bcrypt
+        # then reinstalled flask_bcrypt using pip
         return bcrypt.generate_password_hash(password)
 
     @staticmethod
