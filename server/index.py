@@ -32,4 +32,4 @@ app.config['SECRET_KEY'] = "secret"
 #app.config.from_object(BaseConfig)
 db     = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
-cors   = CORS(app)
+cors   = CORS(app, resources={r"/api/*": {"origins": "*"}})

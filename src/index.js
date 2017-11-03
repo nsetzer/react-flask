@@ -15,6 +15,9 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 
 import configureStore from './store/configureStore';
 
+import { requireAuthentication } from './components/AuthenticatedComponent';
+import { requireNoAuthentication } from './components/notAuthenticatedComponent';
+
 const store = configureStore();
 //https://github.com/reactjs/react-router-tutorial/tree/master/lessons/06-params
 //<Route path="/repos" component={Repos}/>
@@ -25,9 +28,9 @@ ReactDOM.render((
       <MuiThemeProvider muiTheme={getMuiTheme()}>
       <div>
         <Route exact path="/" component={App} />
-        <Route exact path="/login" component={LoginView} />
+        <Route exact path="/login" component={requireNoAuthentication(LoginView)} />
         <Route exact path="/about/:topic" component={AboutView} />
-        <Route exact path="/main" component={MainView} />
+        <Route exact path="/main" component={requireAuthentication(MainView)} />
       </div>
       </MuiThemeProvider>
    </Provider>

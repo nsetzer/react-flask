@@ -2,6 +2,7 @@ from flask import request, render_template, jsonify, url_for, redirect, g
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import cross_origin
 #from config import BaseConfig
 from flask_bcrypt import Bcrypt
 from flask import jsonify
@@ -10,7 +11,7 @@ import random
 from sqlalchemy.exc import IntegrityError
 
 from .auth import generate_token, requires_auth, verify_token
-from .index import db, app
+from .index import db, app, cors
 from .models import User
 
 # serve the bundle
@@ -57,7 +58,6 @@ def create_user():
 @app.route("/api/get_token", methods=["POST"])
 def get_token():
     incoming = request.get_json()
-    print(incoming)
     user = User.get_user_with_email_and_password(incoming["email"], incoming["password"])
     if user:
         return jsonify(token=generate_token(user))
@@ -66,11 +66,8 @@ def get_token():
 
 
 @app.route("/api/is_token_valid", methods=["POST"])
+@cross_origin(supports_credentials=True)
 def is_token_valid():
     incoming = request.get_json()
     is_valid = verify_token(incoming["token"])
-
-    if is_valid:
-        return jsonify(token_is_valid=True)
-    else:
-        return jsonify(token_is_valid=False), 403
+    return jsonify(token_is_valid=is_valid)
