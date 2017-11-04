@@ -1,35 +1,56 @@
 import os, sys
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
-#from config import BaseConfig
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 
-if not os.path.exists("./build"):
-    sys.stderr.write("build directory not found\n")
+import logging
+from logging.handlers import RotatingFileHandler
 
-build_dir = os.path.join(os.getcwd(),"build")
-static_dir = os.path.join(os.getcwd(),"build", "static")
-if not os.path.exists(build_dir):
-    sys.stderr.write("build directory not found\n")
+class BaseConfig(object):
 
-sys.stderr.write("%s\n"%build_dir)
+    def __init__(self):
+        super(BaseConfig,self).__init__()
+
+        self.setenv_default("DEBUG",False)
+        #self.setenv_default("PORT",4200)
+        self.setenv_default("SECRET_KEY","SECRET")
+        self.setenv_default("DATABASE_URL",
+            "sqlite:///" + os.path.join(os.getcwd(), "app.db"))
+
+        self.build_dir = os.path.join(os.getcwd(),"build")
+        self.static_dir = os.path.join(os.getcwd(),"build", "static")
+
+    def setenv_default(self, env, default):
+        if env in os.environ:
+            self.__dict__[env] = os.environ[env]
+        else:
+            self.__dict__[env] = default
+
+cfg = BaseConfig();
 
 app = Flask(__name__,
-    static_folder=static_dir,
-    template_folder=build_dir)
+    static_folder=cfg.static_dir,
+    template_folder=cfg.build_dir)
 
-if 'DATABASE_URL' in os.environ:
-    db_path = os.environ['DATABASE_URL']
-else:
-    db_path = "sqlite:///" + os.path.join(os.getcwd(), "temp.db")
-app.config['SQLALCHEMY_DATABASE_URI'] =  db_path
+#handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
+#handler.setLevel(logging.INFO)
+#app.logger.addHandler(handler)
+
+app.logger.addHandler(logging.StreamHandler())
+app.logger.setLevel(logging.INFO)
+
+
+app.logger.info("database: %s", cfg.DATABASE_URL)
+
+app.config['SQLALCHEMY_DATABASE_URI'] =  cfg.DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-print(app.config['SQLALCHEMY_DATABASE_URI'])
+app.config['SECRET_KEY'] = cfg.SECRET_KEY
 
-app.config['SECRET_KEY'] = "secret"
-
-#app.config.from_object(BaseConfig)
 db     = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
 cors   = CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+if not os.path.exists(cfg.build_dir):
+    # only an error in production environments
+    app.logger.warn("build directory not found\n")
