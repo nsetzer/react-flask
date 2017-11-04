@@ -7,9 +7,6 @@ import { connect } from 'react-redux';
 import logo from '../svg/logo.svg';
 import './App.css';
 
-import env from '../env'
-
-
 class App extends Component {
 
   constructor(props) {

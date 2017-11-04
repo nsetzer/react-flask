@@ -7,9 +7,7 @@ import { connect } from 'react-redux';
 import logo from '../svg/logo.svg';
 import './App.css';
 
-import env from '../env'
 import { get_random_int } from '../utils/http_functions'
-
 
 class TestView extends Component {
 
