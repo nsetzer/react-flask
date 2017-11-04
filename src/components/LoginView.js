@@ -76,7 +76,6 @@ class LoginView extends Component {
 
     }
 
-    console.log(email_is_valid + " " + password_is_valid)
     if (email_is_valid && password_is_valid) {
         this.setState({
             disabled: false,
@@ -103,8 +102,6 @@ class LoginView extends Component {
 
   login(e) {
       e.preventDefault();
-      console.log("log in user")
-      console.log(this.context)
       this.props.loginUser(this.props, this.state.email, this.state.password, this.state.redirectSuccess);
   }
 

@@ -40,3 +40,6 @@ export function data_about_user(token) {
     return axios.get(env.baseUrl + '/api/user', tokenConfig(token));
 }
 
+export function get_random_int() {
+    return axios.get(env.baseUrl + '/api/random')
+}

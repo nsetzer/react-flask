@@ -73,7 +73,6 @@ export function loginUser(props, email, password, target) {
                     //this.context.history.push('/main');
                     props.history.push(target);
                 } catch (e) {
-                    console.log(e);
                     dispatch(loginUserFailure({
                         response: {
                             status: 403,
@@ -83,7 +82,6 @@ export function loginUser(props, email, password, target) {
                 }
             })
             .catch(error => {
-                console.log(error);
                 dispatch(loginUserFailure({
                     response: {
                         status: 403,

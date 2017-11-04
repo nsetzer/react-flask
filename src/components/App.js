@@ -7,7 +7,6 @@ import { connect } from 'react-redux';
 import logo from '../svg/logo.svg';
 import './App.css';
 
-import RandomService from '../service/random'
 import env from '../env'
 
 
@@ -16,14 +15,6 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {value: 0};
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  async handleClick() {
-    let res = await RandomService.getRandomInt();
-    this.setState({"value": res.value});
-    console.log(process.env.NODE_ENV)
-    console.log(env.baseUrl)
   }
 
   render() {

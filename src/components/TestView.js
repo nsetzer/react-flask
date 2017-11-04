@@ -7,8 +7,8 @@ import { connect } from 'react-redux';
 import logo from '../svg/logo.svg';
 import './App.css';
 
-import RandomService from '../service/random'
 import env from '../env'
+import { get_random_int } from '../utils/http_functions'
 
 
 class TestView extends Component {
@@ -20,10 +20,9 @@ class TestView extends Component {
   }
 
   async handleClick() {
-    let res = await RandomService.getRandomInt();
-    this.setState({"value": res.value});
-    console.log(process.env.NODE_ENV)
-    console.log(env.baseUrl)
+    let res = await get_random_int();
+    let data = res.data
+    this.setState({"value": data.value});
   }
 
   render() {
