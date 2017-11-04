@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
 
-import env from '../../env'
+import { validate_token } from '../../utils/http_functions'
 
 function mapStateToProps(state) {
     return {
@@ -38,15 +38,7 @@ export function DetermineAuth(Component) {
             if (!props.isAuthenticated) {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    fetch(env.baseUrl + '/api/is_token_valid', {
-                        method: 'post',
-                        credentials: 'include',
-                        headers: {
-                            'Accept': 'application/json', // eslint-disable-line quote-props
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ token }),
-                    })
+                    validate_token( token )
                         .then(res => {
                             if (res.status === 200) {
                                 this.props.loginUserSuccess(token);

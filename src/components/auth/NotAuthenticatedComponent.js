@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
 import PropTypes from 'prop-types';
 
-import env from '../../env'
+import { validate_token } from '../../utils/http_functions'
 
 function mapStateToProps(state) {
     return {
@@ -45,16 +45,7 @@ export function requireNoAuthentication(Component) {
             } else {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    // TODO: move to another file
-                    fetch(env.baseUrl + '/api/is_token_valid', {
-                        method: 'post',
-                        credentials: 'include',
-                        headers: {
-                            'Accept': 'application/json', // eslint-disable-line quote-props
-                            'Content-Type': 'application/json',
-                        },
-                        body: JSON.stringify({ token }),
-                    })
+                    validate_token( token )
                         .then(res => {
                             if (res.status === 200) {
                                 this.props.loginUserSuccess(token);
