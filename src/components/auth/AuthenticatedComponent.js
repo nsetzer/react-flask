@@ -1,11 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-//import { BrowserRouter } from 'react-router-dom';
-import * as actionCreators from '../actions/auth';
+import * as actionCreators from '../../actions/auth';
 import PropTypes from 'prop-types';
 
-import env from '../env'
+import env from '../../env'
 
 function mapStateToProps(state) {
     return {

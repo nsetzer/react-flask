@@ -42,7 +42,9 @@ class TestView extends Component {
 
         <h2> Get Random Int From Server</h2>
         <button onClick={this.handleClick}>Click Me</button>
-        <p>{this.state.value}</p>
+        <br/>
+
+        <h3>{this.state.value}</h3>
 
         <h2> Test Database Access</h2>
         <p>todo</p>

@@ -1,11 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-//import { browserHistory } from 'react-router';
-import * as actionCreators from '../actions/auth';
-import PropTypes from 'prop-types';
+import * as actionCreators from '../../actions/auth';
 
-import env from '../env'
+import env from '../../env'
 
 function mapStateToProps(state) {
     return {
@@ -20,19 +19,15 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export function requireNoAuthentication(Component) {
+export function DetermineAuth(Component) {
 
-    class notAuthenticatedComponent extends React.Component {
-
-        constructor(props) {
-            super(props);
-            this.state = {
-                loaded: false,
-            };
-        }
+    class AuthenticatedComponent extends React.Component {
 
         componentWillMount() {
             this.checkAuth();
+            this.setState({
+                loaded_if_needed: false,
+            });
         }
 
         componentWillReceiveProps(nextProps) {
@@ -40,13 +35,9 @@ export function requireNoAuthentication(Component) {
         }
 
         checkAuth(props = this.props) {
-            if (props.isAuthenticated) {
-                props.history.push('/main');
-
-            } else {
+            if (!props.isAuthenticated) {
                 const token = localStorage.getItem('token');
                 if (token) {
-                    // TODO: move to another file
                     fetch(env.baseUrl + '/api/is_token_valid', {
                         method: 'post',
                         credentials: 'include',
@@ -59,26 +50,25 @@ export function requireNoAuthentication(Component) {
                         .then(res => {
                             if (res.status === 200) {
                                 this.props.loginUserSuccess(token);
-                                props.history.push('/main');
-
-                            } else {
                                 this.setState({
-                                    loaded: true,
+                                    loaded_if_needed: true,
                                 });
+
                             }
                         });
-                } else {
-                    this.setState({
-                        loaded: true,
-                    });
                 }
+
+            } else {
+                this.setState({
+                    loaded_if_needed: true,
+                });
             }
         }
 
         render() {
             return (
                 <div>
-                    {!this.props.isAuthenticated && this.state.loaded
+                    {this.state.loaded_if_needed
                         ? <Component {...this.props} />
                         : null
                     }
@@ -88,11 +78,10 @@ export function requireNoAuthentication(Component) {
         }
     }
 
-    notAuthenticatedComponent.propTypes = {
+    AuthenticatedComponent.propTypes = {
         loginUserSuccess: PropTypes.func,
-        isAuthenticated: PropTypes.bool,
     };
 
-    return connect(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
+    return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
 
 }
