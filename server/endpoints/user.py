@@ -1,6 +1,6 @@
 
 from functools import wraps
-from flask import request, jsonify
+from flask import request, jsonify, g
 from flask_cors import cross_origin
 from sqlalchemy.exc import IntegrityError
 
@@ -23,7 +23,6 @@ def generate_token(user, expiration=TWO_WEEKS):
     }).decode('utf-8')
     return token
 
-
 def verify_token(token):
     s = Serializer(app.config['SECRET_KEY'])
     try:
@@ -31,7 +30,6 @@ def verify_token(token):
     except (BadSignature, SignatureExpired):
         return None
     return data
-
 
 def requires_auth(f):
     @wraps(f)
@@ -47,7 +45,6 @@ def requires_auth(f):
         return jsonify(message="Authentication is required to access this resource"), 401
 
     return decorated
-
 
 @app.route("/api/user", methods=["GET"])
 @requires_auth
@@ -75,7 +72,6 @@ def create_user():
         token=generate_token(new_user)
     )
 
-
 @app.route("/api/get_token", methods=["POST"])
 def get_token():
     incoming = request.get_json()
@@ -87,7 +83,6 @@ def get_token():
     else:
         app.logger.warn('%s not found', incoming["email"])
     return jsonify(error=True), 403
-
 
 @app.route("/api/is_token_valid", methods=["POST"])
 @cross_origin(supports_credentials=True)

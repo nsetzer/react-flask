@@ -5,6 +5,8 @@ from flask import Flask, render_template, jsonify, url_for
 from .index import db, app, cors
 
 from .models.user import User
+from .models.test_message import TestMessage
+
 from .endpoints import user
 from .endpoints import test
 
@@ -27,6 +29,7 @@ def list_routes():
 
         methods = ','.join(rule.methods)
         url = url_for(rule.endpoint, **options)
+        url = url.replace("%5B",":").replace("%5D","")
         output.append( [rule.endpoint, methods, url] )
 
     for endpoint, methods, url in sorted(output,key=lambda x:x[2]):
