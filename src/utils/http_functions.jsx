@@ -43,3 +43,16 @@ export function data_about_user(token) {
 export function get_random_int() {
     return axios.get(env.baseUrl + '/api/random')
 }
+
+export function create_message(text) {
+    return axios.post(env.baseUrl + '/api/message',
+                      {message:text});
+}
+
+export function get_all_messages() {
+    return axios.get(env.baseUrl + '/api/message')
+}
+
+export function delete_message(id) {
+    return axios.delete(env.baseUrl + `/api/random/${id}`)
+}

@@ -7,20 +7,49 @@ import { connect } from 'react-redux';
 import logo from '../svg/logo.svg';
 import './App.css';
 
-import { get_random_int } from '../utils/http_functions'
+import { get_random_int,
+         get_all_messages,
+         delete_message,
+         create_message } from '../utils/http_functions'
 
 class TestView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {value: 0};
+    this.state = {value: 0, "messages":[]};
     this.handleClick = this.handleClick.bind(this)
+    this.handleClick = this.getMessages.bind(this)
+    this.handleClick = this.deleteMessage.bind(this)
+    this.handleClick = this.createMessage.bind(this)
+
+    this.getMessages();
   }
 
   async handleClick() {
     let res = await get_random_int();
     let data = res.data
     this.setState({"value": data.value});
+  }
+
+  async getMessages() {
+    let res = await get_all_messages();
+    let state = this.state
+    state.messages = res.data.messages
+    console.log(state)
+    this.setState(state);
+  }
+
+  async deleteMessage(id) {
+    let res = await delete_message(id);
+    let state = this.state
+    state.messages = res.data.messages
+    this.setState(state);
+  }
+
+  async createMessage() {
+    let res = await create_message("test message");
+    console.log("created message: " + res.data.id)
+    //this.getMessages();
   }
 
   render() {
@@ -44,7 +73,17 @@ class TestView extends Component {
         <h3>{this.state.value}</h3>
 
         <h2> Test Database Access</h2>
-        <p>todo</p>
+
+        <button onClick={this.createMessage}>Click Me</button>
+        <br/>
+
+        <ul>
+        {
+          (this.state.messages) ? this.state.messages.map(function(msg) {
+                return <li>{msg.text}</li>}): <div>No Messages To Display</div>
+        }
+        </ul>
+
       </div>
     );
   }
