@@ -78,7 +78,16 @@ def create_user():
 @app.route("/api/user/login", methods=["POST"])
 def get_token():
     incoming = request.get_json()
-    print(incoming)
+
+    if not incoming :
+        print(dir(request))
+        print(request.data)
+        return jsonify(error="invalid body"), 400
+    if 'email' not in incoming:
+        return jsonify(error="email not specified"), 400
+    if 'password' not in incoming:
+        return jsonify(error="password not specified"), 400
+
     user = User.get_user_with_email_and_password(incoming["email"], incoming["password"])
     if user:
         app.logger.info('%s logged in successfully', incoming["email"])

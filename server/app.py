@@ -20,6 +20,8 @@ def any_root_path(path):
     return render_template('index.html')
 
 def list_routes():
+    """List application endpoints"""
+
     output = []
     for rule in app.url_map.iter_rules():
 
@@ -37,7 +39,8 @@ def list_routes():
 
         print(line)
 
-def db_init():
+def db_init(*args):
+    """initialize the database"""
     db.create_all()
 
     user = User("admin","password")
@@ -46,10 +49,16 @@ def db_init():
     db.session.commit()
 
 def db_drop():
-
+    """ drop all tables from database """
     if input("drop tables? [yN] ")[:1]=="y":
         db.drop_all()
         db.session.commit()
         sys.stderr.write("successfully dropped all tables")
     else:
         sys.stderr.write("user aborted.")
+
+def db_reset():
+    """ drop all tables then create default database """
+    db.drop_all()
+    db_init()
+
