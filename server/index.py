@@ -7,12 +7,16 @@ from flask_cors import CORS
 import logging
 from logging.handlers import RotatingFileHandler
 
-class BaseConfig(object):
-
+class EnvironmentConfig(object):
+    """
+    A configuration option which takes values from the current environment
+    """
     def __init__(self):
         super(BaseConfig,self).__init__()
 
-        self.setenv_default("DEBUG",False)
+        self.setenv_default("ENV","production")
+        self.setenv_default("DEBUG",self.ENV == "development")
+        self.DEBUG = True if self.DEBUG.lower()=="true" else False
         #self.setenv_default("PORT",4200)
         self.setenv_default("SECRET_KEY","SECRET")
         self.setenv_default("DATABASE_URL",
@@ -27,7 +31,7 @@ class BaseConfig(object):
         else:
             self.__dict__[env] = default
 
-cfg = BaseConfig();
+cfg = EnvironmentConfig();
 
 app = Flask(__name__,
     static_folder=cfg.static_dir,
@@ -37,15 +41,14 @@ app = Flask(__name__,
 #handler.setLevel(logging.INFO)
 #app.logger.addHandler(handler)
 
-app.logger.addHandler(logging.StreamHandler())
-app.logger.setLevel(logging.INFO)
-
-
-app.logger.info("database: %s", cfg.DATABASE_URL)
-
 app.config['SQLALCHEMY_DATABASE_URI'] =  cfg.DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = cfg.SECRET_KEY
+app.config['DEBUG'] = cfg.DEBUG
+
+#app.logger.addHandler(logging.StreamHandler())
+#app.logger.setLevel(logging.INFO)
+app.logger.info("database: %s", cfg.DATABASE_URL)
 
 db     = SQLAlchemy(app)
 bcrypt = Bcrypt(app)

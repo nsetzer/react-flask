@@ -80,9 +80,7 @@ def get_token():
     incoming = request.get_json()
 
     if not incoming :
-        print(dir(request))
-        print(request.data)
-        return jsonify(error="invalid body"), 400
+        return jsonify(error="invalid request body"), 400
     if 'email' not in incoming:
         return jsonify(error="email not specified"), 400
     if 'password' not in incoming:
@@ -94,7 +92,7 @@ def get_token():
         return jsonify(token=generate_token(user))
     else:
         app.logger.warn('%s not found', incoming["email"])
-    return jsonify(error=True), 403
+    return jsonify(error="user not found"), 403
 
 @app.route("/api/user/token", methods=["POST"])
 @cross_origin(supports_credentials=True)

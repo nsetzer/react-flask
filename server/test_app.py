@@ -62,6 +62,9 @@ class AppTestCase(unittest.TestCase):
         return AuthAppWrapper(self.app, data['token'])
 
     def test_sample(self):
+        """
+        check that the random api returns a random number correctly
+        """
         res = self.app.get('/api/random')
         body = json.loads(res.data)
         self.assertEqual(res.status_code,200)
@@ -70,6 +73,12 @@ class AppTestCase(unittest.TestCase):
 
     def test_login(self):
 
+        """
+        login in and authenticated apis
+
+        A test which first logs the user in, and then
+        attempts to request information about the user
+        """
         email = "admin"
         password="password"
         app = self.login( email, password)
@@ -80,3 +89,18 @@ class AppTestCase(unittest.TestCase):
 
         user = body['result']
         self.assertEqual(user['email'],email)
+
+    def test_login_fail(self):
+        """
+        fail to log in
+
+        A test which shows that an invalid password generates an error
+        """
+        body = {
+            "email" : "admin",
+            "password" : "invalid+password",
+        }
+        res = self.app.post('/api/user/login',
+                            data=json.dumps(body),
+                            content_type='application/json');
+        self.assertEqual(res.status_code,403)

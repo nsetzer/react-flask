@@ -3,9 +3,7 @@ import pkgutil
 import unittest
 import shutil
 import fnmatch
-
-path=os.path.join(os.getcwd(),"test.db")
-os.environ["DATABASE_URL"] = "sqlite:///" + path
+import argparse
 
 def collect_test_suite(pkgName,pattern):
     """
@@ -16,27 +14,67 @@ def collect_test_suite(pkgName,pattern):
       and classes start with Test,
       and of those classes, the methods start with test_
     """
+
+    file_prefix = "test_"
+    test_prefix = "test_" # prefix for function names
+    cls_suffix  = "TestCase"
+
+    # fix the given pattern to accept the following rules:
+    #   - an asterisk '*' matches any number of characters
+    #   - if prefixed with '^' the test must start with the next character
+    #   - if suffixed with '$' the test must end with the preceding character
+    #   - all tests begin with 'test_' and is ignored in pattern matching
+    if pattern.startswith("^"):
+        pattern = test_prefix + pattern[1:]
+    elif not pattern.startswith("*"):
+        pattern = test_prefix + "*" + pattern
+
+    if pattern.endswith("$"):
+        pattern = pattern[:-1]
+    elif not pattern.endswith("*"):
+        pattern += "*"
+
+    if pattern == "*":
+        pattern= test_prefix + pattern
+
     pkg = __import__(pkgName)
     suite = unittest.TestSuite()
     for importer, modname, ispkg in pkgutil.iter_modules(pkg.__path__):
-        if modname.startswith("test_"):
+        if modname.startswith(file_prefix):
             module = __import__(pkgName+'.'+modname, fromlist="dummy")
             for clsName,cls in vars(module).items():
-                if clsName.startswith("Test") or clsName.endswith("TestCase") :
+                if clsName.endswith(cls_suffix):
                     for testName in dir(cls):
-                        if testName.startswith("test_"):
-                          if fnmatch.fnmatch(testName,pattern):
-                            suite.addTest(cls(testName))
-                          else:
-                            sys.stderr.write("skipping test %s.\n"%testName)
+                      if fnmatch.fnmatch(testName,pattern):
+                        suite.addTest(cls(testName))
+                      elif testName.startswith(test_prefix):
+                        sys.stderr.write("skipping test %s.\n"%testName)
     return suite
 
 def main():
     """run server tests"""
+
+
+
+    package = "server"
+
+    parser = argparse.ArgumentParser(description='Process some integers.')
+    parser.add_argument('-v', '--verbose', dest='verbose', action='store_true',
+                        help='enable verbose logging')
+    parser.add_argument('-p', '--pattern', dest='pattern', default="*",
+                        help='filter for tests ot run')
+
+    args = parser.parse_args()
+
+    path=os.path.join(os.getcwd(),"test.db")
+    os.environ["DATABASE_URL"] = "sqlite:///" + path
+    os.environ["ENV"] = "testing"
+    os.environ["DEBUG"] = "True" if args.verbose else "False"
+
     test_loader = unittest.defaultTestLoader
-    test_runner = unittest.TextTestRunner(verbosity=0)
-    #ptn = self.test if self.test else "*"
-    test_suite = collect_test_suite("server","*");
+    test_runner = unittest.TextTestRunner(verbosity=2 if args.verbose else 1)
+    test_suite = collect_test_suite(package,args.pattern);
+
     return test_runner.run(test_suite)
 
 if __name__ == '__main__':
