@@ -16,16 +16,17 @@ class TestView extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {value: 0, "messages":[]};
-    this.handleClick = this.handleClick.bind(this)
-    this.handleClick = this.getMessages.bind(this)
-    this.handleClick = this.deleteMessage.bind(this)
-    this.handleClick = this.createMessage.bind(this)
+    this.state = {value: 0, "messages":[], "message_text":""};
+    this.getRandomInt  = this.getRandomInt.bind(this)
+    this.getMessages   = this.getMessages.bind(this)
+    this.deleteMessage = this.deleteMessage.bind(this)
+    this.createMessage = this.createMessage.bind(this)
+    this.updateMessageText = this.updateMessageText.bind(this)
 
     this.getMessages();
   }
 
-  async handleClick() {
+  async getRandomInt() {
     let res = await get_random_int();
     let data = res.data
     this.setState({"value": data.value});
@@ -35,7 +36,6 @@ class TestView extends Component {
     let res = await get_all_messages();
     let state = this.state
     state.messages = res.data.messages
-    console.log(state)
     this.setState(state);
   }
 
@@ -47,9 +47,14 @@ class TestView extends Component {
   }
 
   async createMessage() {
-    let res = await create_message("test message");
-    console.log("created message: " + res.data.id)
-    //this.getMessages();
+    await create_message(this.state.message_text);
+    this.getMessages();
+  }
+
+  updateMessageText(event) {
+    let state = this.state
+    state.message_text = event.target.value;
+    this.setState(state);
   }
 
   render() {
@@ -66,23 +71,43 @@ class TestView extends Component {
         <Link to="/register">&nbsp;Register&nbsp;</Link>
         </p>
 
+        <div className="container-fluid content-body">
+
         <h2> Get Random Int From Server</h2>
-        <button onClick={this.handleClick}>Click Me</button>
+        <button id="btn1" onClick={this.getRandomInt}>Click Me</button>
         <br/>
 
         <h3>{this.state.value}</h3>
 
         <h2> Test Database Access</h2>
 
-        <button onClick={this.createMessage}>Click Me</button>
-        <br/>
+        <div className="input-group">
+          <input type="text" className="form-control"
+                placeholder="Enter Search Term"
+                onChange={this.updateMessageText}></input>
+          <span className="input-group-btn">
+            <button className="btn btn-default"
+                    onClick={this.createMessage}>
+              <span className="glyphicon glyphicon-send"></span>
+            </button>
+         </span>
+        </div>
 
-        <ul>
+        <div>
         {
-          (this.state.messages) ? this.state.messages.map(function(msg) {
-                return <li>{msg.text}</li>}): <div>No Messages To Display</div>
+
+          (this.state.messages) ? this.state.messages.map( (msg) => {
+            return <div key={msg.id}>
+                     {msg.text}
+                     <button onClick={() => {this.deleteMessage(msg.id)}}>
+                       Delete
+                     </button>
+                   </div>
+            }) : <div>No Messages To Display</div>
         }
-        </ul>
+        </div>
+
+        </div>
 
       </div>
     );

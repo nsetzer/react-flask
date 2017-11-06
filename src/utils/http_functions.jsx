@@ -54,5 +54,5 @@ export function get_all_messages() {
 }
 
 export function delete_message(id) {
-    return axios.delete(env.baseUrl + `/api/random/${id}`)
+    return axios.delete(env.baseUrl + `/api/message/${id}`)
 }
