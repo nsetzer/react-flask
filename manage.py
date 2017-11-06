@@ -1,7 +1,7 @@
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
-from server.app import app, db, User, list_routes
+from server.app import app, db, list_routes, db_init, db_drop
 
 migrate = Migrate(app, db)
 manager = Manager(app)
@@ -10,18 +10,18 @@ manager = Manager(app)
 manager.add_command('db', MigrateCommand)
 
 @manager.command
-def create_db():
+def create():
     """Creates the db tables."""
+    db_init();
 
-    db.create_all()
-
-    user = User("admin","password")
-    db.session.add(user)
-
-    db.session.commit()
+@manager.command
+def drop():
+    """drop the db tables."""
+    db_drop();
 
 @manager.command
 def routes():
+    """List application endpoints"""
     list_routes();
 
 if __name__ == '__main__':

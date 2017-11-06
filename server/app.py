@@ -36,3 +36,20 @@ def list_routes():
         line = "{:30s} {:20s} {}".format(endpoint, methods, url)
 
         print(line)
+
+def db_init():
+    db.create_all()
+
+    user = User("admin","password")
+    db.session.add(user)
+
+    db.session.commit()
+
+def db_drop():
+
+    if input("drop tables? [yN] ")[:1]=="y":
+        db.drop_all()
+        db.session.commit()
+        sys.stderr.write("successfully dropped all tables")
+    else:
+        sys.stderr.write("user aborted.")
