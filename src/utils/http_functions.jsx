@@ -12,23 +12,23 @@ const tokenConfig = (token) => ({
 });
 
 export function validate_token(token) {
-    var url = env.baseUrl + '/api/is_token_valid'
+    var url = env.baseUrl + '/api/user/token'
     var body = { token, }
     var config = { withCredentials: true }
     return axios.post(url, body, config );
 }
 
 export function create_user(email, password) {
-    return axios.post(env.baseUrl + '/api/create_user', {
+    return axios.post(env.baseUrl + '/api/user', {
         email,
         password,
     });
 }
 
 export function get_token(email, password) {
-    return axios.post(env.baseUrl + '/api/get_token', {
-        email,
-        password,
+    return axios.post(env.baseUrl + '/api/user/login', {
+        email: email,
+        password: password,
     });
 }
 

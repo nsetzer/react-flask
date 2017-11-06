@@ -7,19 +7,19 @@ from sqlalchemy.exc import IntegrityError
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from itsdangerous import SignatureExpired, BadSignature
 
+from bcrypt import gensalt
 from ..index import app, db
 
 from ..models.user import User
 
-
 TWO_WEEKS = 1209600
-
 
 def generate_token(user, expiration=TWO_WEEKS):
     s = Serializer(app.config['SECRET_KEY'], expires_in=expiration)
     token = s.dumps({
         'id': user.id,
         'email': user.email,
+        'salt': gensalt().decode('ascii'),
     }).decode('utf-8')
     return token
 
@@ -49,9 +49,12 @@ def requires_auth(f):
 @app.route("/api/user", methods=["GET"])
 @requires_auth
 def get_user():
-    return jsonify(result=g.current_user)
+    user = g.current_user
+    if user is not None:
+        del user['salt']
+    return jsonify(result=user)
 
-@app.route("/api/create_user", methods=["POST"])
+@app.route("/api/user", methods=["POST"])
 def create_user():
     incoming = request.get_json()
     user = User(
@@ -72,7 +75,7 @@ def create_user():
         token=generate_token(new_user)
     )
 
-@app.route("/api/get_token", methods=["POST"])
+@app.route("/api/user/login", methods=["POST"])
 def get_token():
     incoming = request.get_json()
     print(incoming)
@@ -84,7 +87,7 @@ def get_token():
         app.logger.warn('%s not found', incoming["email"])
     return jsonify(error=True), 403
 
-@app.route("/api/is_token_valid", methods=["POST"])
+@app.route("/api/user/token", methods=["POST"])
 @cross_origin(supports_credentials=True)
 def is_token_valid():
     incoming = request.get_json()
