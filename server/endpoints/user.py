@@ -43,10 +43,10 @@ def verify_token(token):
 
 def _requires_token_auth_impl(f, args, kwargs, token):
 
-    user_data = verify_token(string_token)
+    user_data = verify_token(token)
 
     if user_data:
-        user = User.get_user_with_email_and_password(user_data.email)
+        user = User.get_user_with_email(user_data['email'])
         g.current_user = user
         return f(*args, **kwargs)
 
