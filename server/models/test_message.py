@@ -5,6 +5,7 @@ class TestMessage(db.Model):
     text = db.Column(db.String(255), unique=False)
 
     def __init__(self, text):
+        super(TestMessage, self).__init__();
         self.text = text
 
     @staticmethod
