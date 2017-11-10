@@ -5,13 +5,23 @@ import {
     TEST_MESSSAGE_GET_ALL,
     TEST_MESSSAGE_SUCCESS,
     TEST_MESSSAGE_FAILURE,
+    TEST_RANDOM_INT,
 } from '../constants/index';
 
 import { parseJSON } from '../utils/misc';
-import { create_message, get_all_messages, delete_message } from '../utils/http_functions';
+import { get_random_int, create_message, get_all_messages, delete_message } from '../utils/http_functions';
 
 export function messageRequest(messageType) {
     return {type: messageType}
+}
+
+export function getRandomIntSuccess(value) {
+    return {
+        type: TEST_RANDOM_INT,
+        payload: {
+            value,
+        },
+    };
 }
 
 export function messageSuccess(messages) {
@@ -31,6 +41,20 @@ export function messageFailure(error) {
             statusText: error.response.statusText,
         },
     };
+}
+
+export function getRandomInt() {
+    return function (dispatch) {
+        return get_random_int()
+            .then(parseJSON)
+            .then(response => {
+                dispatch(getRandomIntSuccess(response.value));
+            })
+            .catch(error => {
+                dispatch(messageFailure({"status":400,
+                                         "statusText":"none"}));
+            })
+    }
 }
 
 export function createMessage(text) {

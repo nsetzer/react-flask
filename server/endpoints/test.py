@@ -31,8 +31,11 @@ def create_message():
     if not incoming or "message" not in incoming:
         return "", 400
 
-    print(incoming['message'])
-    msg = TestMessage( incoming['message'] )
+    msg = incoming['message']
+    if not isinstance(msg,str):
+        return jsonify(message="malformed request"), 400
+
+    msg = TestMessage( msg )
     db.session.add(msg)
 
     try:
