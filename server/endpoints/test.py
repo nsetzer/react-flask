@@ -40,7 +40,9 @@ def create_message():
     except IntegrityError as e:
         return jsonify(message="failed to insert message"), 409
 
-    return jsonify(id=msg.id)
+    res = TestMessage.get_all_messages()
+    res = [x.as_dict() for x in res]
+    return jsonify(messages=res)
 
 @app.route('/api/message', methods=['GET'])
 def get_all_messages():

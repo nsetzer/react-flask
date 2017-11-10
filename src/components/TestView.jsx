@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
-//import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 
+import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+
+import * as actionCreators from '../actions/message';
 
 import logo from '../svg/logo.svg';
 import './App.css';
 
-import { get_random_int,
-         get_all_messages,
-         delete_message,
-         create_message } from '../utils/http_functions'
+import { get_random_int } from '../utils/http_functions'
 
 class TestView extends Component {
 
@@ -33,22 +33,15 @@ class TestView extends Component {
   }
 
   async getMessages() {
-    let res = await get_all_messages();
-    let state = this.state
-    state.messages = res.data.messages
-    this.setState(state);
+    this.props.getAllMessages();
   }
 
   async deleteMessage(id) {
-    let res = await delete_message(id);
-    let state = this.state
-    state.messages = res.data.messages
-    this.setState(state);
+    this.props.deleteMessage(id);
   }
 
   async createMessage() {
-    await create_message(this.state.message_text);
-    this.getMessages();
+    this.props.createMessage(this.state.message_text);
   }
 
   updateMessageText(event) {
@@ -96,7 +89,7 @@ class TestView extends Component {
         <div>
         {
 
-          (this.state.messages) ? this.state.messages.map( (msg) => {
+          (this.props.messages) ? this.props.messages.map( (msg) => {
             return <div key={msg.id}>
                      {msg.text}
                      <button onClick={() => {this.deleteMessage(msg.id)}}>
@@ -116,16 +109,19 @@ class TestView extends Component {
 
 
 TestView.propTypes = {
+  statusText: PropTypes.string,
+  messages:  PropTypes.array,
 };
 
 function mapStateToProps(state) {
   return {
+        statusText: state.message.statusText,
+        messages: state.message.messages,
     };
 }
 
 function mapDispatchToProps(dispatch) {
-  return {
-    };
+    return bindActionCreators(actionCreators, dispatch);
 }
 
 export default connect(
