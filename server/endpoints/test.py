@@ -10,7 +10,7 @@ import random
 
 @app.route('/api/random', methods=['GET'])
 def random_int():
-    return jsonify({"value": random.randint(0,100)});
+    return jsonify({"value": random.randint(0, 100)})
 
 """
 
@@ -29,13 +29,16 @@ def create_message():
     incoming = request.get_json()
 
     if not incoming or "message" not in incoming:
+        print("message error 1")
         return "", 400
 
     msg = incoming['message']
-    if not isinstance(msg,str):
+    if not isinstance(msg, str):
+        print("message error 2")
+        print(incoming)
         return jsonify(message="malformed request"), 400
 
-    msg = TestMessage( msg )
+    msg = TestMessage(msg)
     db.session.add(msg)
 
     try:

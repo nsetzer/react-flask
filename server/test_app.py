@@ -13,25 +13,23 @@ class AuthAppWrapper(object):
         self.token = token
 
     def get(self, *args, **kwargs):
-        return self._wrapper(self.app.get, args,kwargs)
+        return self._wrapper(self.app.get, args, kwargs)
 
     def post(self, *args, **kwargs):
-        return self._wrapper(self.app.post, args,kwargs)
+        return self._wrapper(self.app.post, args, kwargs)
 
     def put(self, *args, **kwargs):
-        return self._wrapper(self.app.put, args,kwargs)
+        return self._wrapper(self.app.put, args, kwargs)
 
     def delete(self, *args, **kwargs):
-        return self._wrapper(self.app.delete, args,kwargs)
+        return self._wrapper(self.app.delete, args, kwargs)
 
     def _wrapper(self, method, args, kwargs):
         if "headers" not in kwargs:
             kwargs['headers'] = {}
         if "Authorization" not in kwargs['headers']:
             kwargs['headers']['Authorization'] = self.token
-        return method(*args,**kwargs)
-
-
+        return method(*args, **kwargs)
 
 class AppTestCase(unittest.TestCase):
 
@@ -51,13 +49,13 @@ class AppTestCase(unittest.TestCase):
         sends the authentication token with any request.
         """
         body = {
-            "email" : email,
-            "password" : password,
+            "email": email,
+            "password": password,
         }
         res = self.app.post('/api/user/login',
                             data=json.dumps(body),
-                            content_type='application/json');
-        self.assertEqual(res.status_code,200)
+                            content_type='application/json')
+        self.assertEqual(res.status_code, 200)
         data = json.loads(res.data)
         return AuthAppWrapper(self.app, data['token'])
 
@@ -67,9 +65,9 @@ class AppTestCase(unittest.TestCase):
         """
         res = self.app.get('/api/random')
         body = json.loads(res.data)
-        self.assertEqual(res.status_code,200)
-        self.assertLessEqual(body['value'],100)
-        self.assertGreaterEqual(body['value'],0)
+        self.assertEqual(res.status_code, 200)
+        self.assertLessEqual(body['value'], 100)
+        self.assertGreaterEqual(body['value'], 0)
 
     def test_login(self):
 
@@ -80,15 +78,15 @@ class AppTestCase(unittest.TestCase):
         attempts to request information about the user
         """
         email = "admin"
-        password="password"
-        app = self.login( email, password)
+        password = "password"
+        app = self.login(email, password)
 
         res = app.get("/api/user")
         body = json.loads(res.data)
-        self.assertEqual(res.status_code,200)
+        self.assertEqual(res.status_code, 200)
 
         user = body['result']
-        self.assertEqual(user['email'],email)
+        self.assertEqual(user['email'], email)
 
     def test_login_fail(self):
         """
@@ -97,10 +95,10 @@ class AppTestCase(unittest.TestCase):
         A test which shows that an invalid password generates an error
         """
         body = {
-            "email" : "admin",
-            "password" : "invalid+password",
+            "email": "admin",
+            "password": "invalid+password",
         }
         res = self.app.post('/api/user/login',
                             data=json.dumps(body),
-                            content_type='application/json');
-        self.assertEqual(res.status_code,403)
+                            content_type='application/json')
+        self.assertEqual(res.status_code, 403)

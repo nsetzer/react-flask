@@ -29,7 +29,7 @@ class App extends Component {
         </p>
         <p className="App-intro">
           Your App is Now Running<br/>
-          To get started, edit <code>src/App.js</code> and save to reload.
+          To get started, edit <code>src/components/App.jsx</code> and save to reload.
         </p>
       </div>
     );

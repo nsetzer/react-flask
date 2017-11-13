@@ -1,4 +1,4 @@
-import os,sys
+import os, sys
 
 from flask import Flask, render_template, jsonify, url_for
 
@@ -31,10 +31,10 @@ def list_routes():
 
         methods = ','.join(rule.methods)
         url = url_for(rule.endpoint, **options)
-        url = url.replace("%5B",":").replace("%5D","")
-        output.append( [rule.endpoint, methods, url] )
+        url = url.replace("%5B", ":").replace("%5D", "")
+        output.append([rule.endpoint, methods, url])
 
-    for endpoint, methods, url in sorted(output,key=lambda x:x[2]):
+    for endpoint, methods, url in sorted(output, key=lambda x: x[2]):
         line = "{:30s} {:20s} {}".format(endpoint, methods, url)
 
         print(line)
@@ -43,14 +43,14 @@ def db_init(*args):
     """initialize the database"""
     db.create_all()
 
-    user = User("admin","password")
+    user = User("admin", "password")
     db.session.add(user)
 
     db.session.commit()
 
 def db_drop():
     """ drop all tables from database """
-    if input("drop tables? [yN] ")[:1]=="y":
+    if input("drop tables? [yN] ")[:1] == "y":
         db.drop_all()
         db.session.commit()
         sys.stderr.write("successfully dropped all tables")
