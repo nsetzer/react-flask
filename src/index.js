@@ -10,10 +10,9 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 //import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 
-import configureStore from './store/configureStore';
-
 import AppRouter from "./routes"
 
+import configureStore from './store/configureStore';
 const store = configureStore();
 
 ReactDOM.render((

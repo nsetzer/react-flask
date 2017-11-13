@@ -35,7 +35,6 @@ python app.py
 Browse to http://localhost:4100. The front end is listening on port 4100 and the backend is listening on port 4200
 
 
-
 ## Production Builds
 
 Build the bundle and serve via the Flask application.
@@ -44,7 +43,7 @@ npm run build
 python app.py
 ```
 
-Browse to http://localhost:4200
+Browse to http://localhost:4200. The React bundle is served by the Flask server.
 
 Environment variables are used to control several features.
 
@@ -57,7 +56,14 @@ set `SECRET_KEY` to a randomly generated string. This key is used for user authe
 
 ## Test
 
+### Frontend Unit Test
+```bash
 npm test
+```
 
+### Backen Unit Tests
+```bash
+python test.py
+```
 
 

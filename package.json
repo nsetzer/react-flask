@@ -24,6 +24,7 @@
     "eject": "react-scripts eject"
   },
   "devDependencies": {
+    "jest-cli": "^21.2.1",
     "react-router-dom": "^4.2.2"
   }
 }
