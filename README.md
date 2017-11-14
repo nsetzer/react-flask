@@ -61,7 +61,7 @@ set `SECRET_KEY` to a randomly generated string. This key is used for user authe
 npm test
 ```
 
-### Backen Unit Tests
+### Backend Unit Tests
 ```bash
 python test.py
 ```

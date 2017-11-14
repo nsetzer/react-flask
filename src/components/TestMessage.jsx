@@ -51,12 +51,12 @@ class TestMessage extends Component {
         <div>
 
         <br/>
-        <ol class="list-group">
+        <ol className="list-group">
         {
           (this.props.messages) ? this.props.messages.map( (msg) => {
-            return <li key={msg.id} class="list-group-item">
+            return <li key={msg.id} className="list-group-item">
                      {msg.text}
-                     <div class="pull-right">
+                     <div className="pull-right">
                      <a onClick={() => {this.props.deleteMessage(msg.id)}}>
                        <span className="glyphicon glyphicon-trash App-red-icon"></span>
                      </a>
