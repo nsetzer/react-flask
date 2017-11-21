@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { bindActionCreators } from 'redux';
@@ -7,6 +7,14 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/message';
 import './RandomInt.css';
 
+
+export interface RandomIntProps {
+  currentInteger: any,
+  getRandomInt: () => any
+}
+
+export interface RandomIntState {
+}
 
 /**
  * RandomInt is a simple example of using redux to manipulate
@@ -17,7 +25,11 @@ import './RandomInt.css';
  * uses a combination of local state and global state to allow for
  * unique text input fields, while showing a list of messages globally.
  */
-class RandomInt extends Component {
+class RandomInt extends React.Component<RandomIntProps,RandomIntState> {
+
+  constructor(props: any) {
+    super(props)
+  }
 
   render() {
     return (
@@ -30,10 +42,6 @@ class RandomInt extends Component {
     );
   }
 }
-
-RandomInt.propTypes = {
-  currentInteger:  PropTypes.number,
-};
 
 function mapStateToProps(state) {
   return {

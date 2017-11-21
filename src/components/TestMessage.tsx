@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { bindActionCreators } from 'redux';
@@ -9,17 +9,21 @@ import './TestMessage.css';
 
 export interface TestMessageProps {
   statusText: string,
-  messages: string[],
-  getAllMessages: () => any
+  messages: any[],
+  getAllMessages: () => any,
+  createMessage: (any) => any,
+  deleteMessage: (any) => any
 }
 
-class TestMessage extends Component<TestMessageProps> {
+export interface TestMessageState {
+  message_text: string,
+}
+
+class TestMessage extends React.Component<TestMessageProps,TestMessageState> {
 
   constructor(props) {
     super(props);
     this.state = {"message_text":""};
-    this.updateMessageText = this.updateMessageText.bind(this)
-    this.createMessage = this.createMessage.bind(this)
     this.props.getAllMessages();
   }
 

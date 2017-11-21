@@ -1,4 +1,4 @@
-import React from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
@@ -30,7 +30,9 @@ function mapDispatchToProps(dispatch) {
 
 export function requireNoAuthentication(Component) {
 
-    class NotAuthenticatedComponent extends React.Component<NotAuthenticatedComponentProps,NotAuthenticatedComponentState> {
+    class NotAuthenticatedComponent extends
+        React.Component<NotAuthenticatedComponentProps,
+                        NotAuthenticatedComponentState> {
 
         constructor(props) {
             super(props);

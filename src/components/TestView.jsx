@@ -1,13 +1,22 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import * as React from 'react';
+//import { Link } from 'react-router-dom'
 
-import logo from '../svg/logo.svg';
-import './App.css';
 
-import RandomInt from './RandomInt'
-import TestMessage from './TestMessage'
+const logo = require('../svg/logo.svg');
+//import './App.css';
 
-class TestView extends Component {
+//import RandomInt from './RandomInt'
+//import TestMessage from './TestMessage'
+
+export interface TestViewProps {}
+
+export interface TestViewState {}
+
+class TestView extends React.Component<TestViewProps,TestViewState> {
+
+  constructor(props : any) {
+    super(props);
+  }
 
   render() {
     return (
