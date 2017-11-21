@@ -55,13 +55,13 @@ export function logoutAndRedirect(props) {
         props.history.push('/login');
     };
 }
-
+/*
 export function redirectToRoute(route) {
     return () => {
         BrowserRouter.push(route);
     };
 }
-
+*/
 export function loginUser(props, email, password, target) {
     return function (dispatch) {
         dispatch(loginUserRequest());

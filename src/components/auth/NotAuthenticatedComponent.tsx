@@ -6,6 +6,16 @@ import PropTypes from 'prop-types';
 
 import { validate_token } from '../../utils/http_functions'
 
+export interface NotAuthenticatedComponentProps{
+    history: any,
+    isAuthenticated: boolean,
+    loginUserSuccess: (any) => any,
+}
+
+export interface NotAuthenticatedComponentState{
+    loaded : boolean
+}
+
 function mapStateToProps(state) {
     return {
         token: state.auth.token,
@@ -18,15 +28,9 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-
 export function requireNoAuthentication(Component) {
 
-    class notAuthenticatedComponent extends React.Component<{isAuthenticated: boolean}> {
-
-        static propTypes = {
-            loginUserSuccess: PropTypes.func,
-            isAuthenticated: PropTypes.bool,
-        };
+    class NotAuthenticatedComponent extends React.Component<NotAuthenticatedComponentProps,NotAuthenticatedComponentState> {
 
         constructor(props) {
             super(props);
@@ -83,13 +87,6 @@ export function requireNoAuthentication(Component) {
         }
     }
 
-    interface StateFromProps {
-      isAuthenticated: boolean,
-    }
-
-    interface DispatchFromProps {
-    }
-
-    return connect<StateFromProps, DispatchFromProps, void>(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
+    return connect(mapStateToProps, mapDispatchToProps)(NotAuthenticatedComponent);
 
 }

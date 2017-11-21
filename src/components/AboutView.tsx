@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 
-import logo from '../svg/logo.svg';
+const logo = require('../svg/logo.svg');
 import './App.css';
 
-class AboutView extends Component {
+export interface AboutViewProps {
+  match: any
+}
 
-/*
-  constructor(props) {
-    super(props);
-  }*/
+class AboutView extends Component<AboutViewProps> {
 
   render() {
     return (

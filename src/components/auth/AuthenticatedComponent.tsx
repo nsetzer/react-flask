@@ -1,10 +1,20 @@
-import React from 'react';
+import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
 import PropTypes from 'prop-types';
 
 import { validate_token } from '../../utils/http_functions'
+
+export interface AuthenticatedComponentProps{
+    history: any,
+    isAuthenticated: boolean,
+    loginUserSuccess: (any) => any,
+}
+
+export interface AuthenticatedComponentState{
+    loaded_if_needed : boolean
+}
 
 function mapStateToProps(state) {
     return {
@@ -19,12 +29,12 @@ function mapDispatchToProps(dispatch) {
 }
 
 export function requireAuthentication(Component) {
-    class AuthenticatedComponent extends React.Component<{isAuthenticated: boolean}> {
+    class AuthenticatedComponent extends React.Component<AuthenticatedComponentProps,AuthenticatedComponentState> {
 
-        static propTypes = {
-            loginUserSuccess: PropTypes.func,
-            isAuthenticated: PropTypes.bool,
-        };
+        constructor(props: any) {
+            super(props);
+            this.state = {loaded_if_needed: false};
+        }
 
         componentWillMount() {
             this.checkAuth();
@@ -76,14 +86,6 @@ export function requireAuthentication(Component) {
             );
 
         }
-    }
-
-    interface StateFromProps {
-      history: any,
-    }
-
-    interface DispatchFromProps {
-        loginUserSuccess: () => void
     }
 
     return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
