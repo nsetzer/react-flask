@@ -10,30 +10,40 @@ The app demonstrates basic concepts such as:
 * Database models, and interacting with the database to display messages.
 
 
+https://github.com/wmonk/create-react-app-typescript
+
 ## Development Builds
 
-Install
+##### Install
 ```bash
 npm install
 pip install -r requirements.txt
 ```
 
-Create a development database:
+##### Create a development database:
 ```bash
 python manage.py create
 ```
 
-start the frontend
+##### Start the frontend
 ```bash
 npm start
 ```
 
-start the backend
+##### Start the backend
 ```bash
 python app.py
 ```
 Browse to http://localhost:4100. The front end is listening on port 4100 and the backend is listening on port 4200
 
+##### Point frontend at a different backend
+By default in development mode the frontend assumes the backend
+is running on localhost:4200. This can be changed with an environment
+variable
+
+```bash
+BACKEND_PATH=http://localhost:1234 npm start
+```
 
 ## Production Builds
 

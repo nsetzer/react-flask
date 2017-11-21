@@ -1,8 +1,11 @@
 
-import os
+import os, sys
 from server.app import app
 
-port=4200
+if (sys.version_info[0] == 2):
+    raise RuntimeError("python2 not supported")
+
+port = 4200
 if "PORT" in os.environ:
     port = int(os.environ["PORT"])
 

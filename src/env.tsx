@@ -1,7 +1,7 @@
 
 
 
-let env = {}
+let env = { 'baseUrl': "" }
 
 // NODE_ENV is either "development" or "production"
 if (process.env.NODE_ENV === "development") {

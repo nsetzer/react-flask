@@ -1,8 +1,8 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../../actions/auth';
-import PropTypes from 'prop-types';
 
 import { validate_token } from '../../utils/http_functions'
 
@@ -18,8 +18,15 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
 
-export function requireAuthentication(Component) {
-    class AuthenticatedComponent extends React.Component {
+
+export function DetermineAuth(Component) {
+
+    class AuthenticatedComponent extends React.Component<{isAuthenticated: boolean}> {
+
+        static propTypes = {
+            loginUserSuccess: PropTypes.func,
+        };
+
         componentWillMount() {
             this.checkAuth();
             this.setState({
@@ -34,9 +41,7 @@ export function requireAuthentication(Component) {
         checkAuth(props = this.props) {
             if (!props.isAuthenticated) {
                 const token = localStorage.getItem('token');
-                if (!token) {
-                    props.history.push('/login');
-                } else {
+                if (token) {
                     validate_token( token )
                         .then(res => {
                             if (res.status === 200) {
@@ -45,13 +50,10 @@ export function requireAuthentication(Component) {
                                     loaded_if_needed: true,
                                 });
 
-                            } else {
-                                props.history.push('/login');
-
                             }
                         });
-
                 }
+
             } else {
                 this.setState({
                     loaded_if_needed: true,
@@ -62,7 +64,7 @@ export function requireAuthentication(Component) {
         render() {
             return (
                 <div>
-                    {this.props.isAuthenticated && this.state.loaded_if_needed
+                    {this.state.loaded_if_needed
                         ? <Component {...this.props} />
                         : null
                     }
@@ -72,10 +74,15 @@ export function requireAuthentication(Component) {
         }
     }
 
-    AuthenticatedComponent.propTypes = {
-        loginUserSuccess: PropTypes.func,
-        isAuthenticated: PropTypes.bool,
-    };
+    interface StateFromProps {
+      isAuthenticated: boolean,
+    }
+
+    interface DispatchFromProps {
+        loginUserSuccess: () => void
+    }
+
 
     return connect(mapStateToProps, mapDispatchToProps)(AuthenticatedComponent);
+
 }

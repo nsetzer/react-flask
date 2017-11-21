@@ -7,7 +7,13 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/message';
 import './TestMessage.css';
 
-class TestMessage extends Component {
+export interface TestMessageProps {
+  statusText: string,
+  messages: string[],
+  getAllMessages: () => any
+}
+
+class TestMessage extends Component<TestMessageProps> {
 
   constructor(props) {
     super(props);
@@ -73,11 +79,6 @@ class TestMessage extends Component {
     );
   }
 }
-
-TestMessage.propTypes = {
-  statusText: PropTypes.string,
-  messages:  PropTypes.array,
-};
 
 function mapStateToProps(state) {
   return {

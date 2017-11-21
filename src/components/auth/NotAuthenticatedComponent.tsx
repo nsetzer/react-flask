@@ -21,7 +21,12 @@ function mapDispatchToProps(dispatch) {
 
 export function requireNoAuthentication(Component) {
 
-    class notAuthenticatedComponent extends React.Component {
+    class notAuthenticatedComponent extends React.Component<{isAuthenticated: boolean}> {
+
+        static propTypes = {
+            loginUserSuccess: PropTypes.func,
+            isAuthenticated: PropTypes.bool,
+        };
 
         constructor(props) {
             super(props);
@@ -78,11 +83,13 @@ export function requireNoAuthentication(Component) {
         }
     }
 
-    notAuthenticatedComponent.propTypes = {
-        loginUserSuccess: PropTypes.func,
-        isAuthenticated: PropTypes.bool,
-    };
+    interface StateFromProps {
+      isAuthenticated: boolean,
+    }
 
-    return connect(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
+    interface DispatchFromProps {
+    }
+
+    return connect<StateFromProps, DispatchFromProps, void>(mapStateToProps, mapDispatchToProps)(notAuthenticatedComponent);
 
 }

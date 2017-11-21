@@ -1,13 +1,16 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 //import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom'
 
 import { connect } from 'react-redux';
 
-import logo from '../svg/logo.svg';
+const logo = require('../svg/logo.svg');
 import './App.css';
 
-class App extends Component {
+class App extends React.Component {
+
+  static propTypes = {
+  };
 
   constructor(props) {
     super(props);
@@ -35,10 +38,6 @@ class App extends Component {
     );
   }
 }
-
-
-App.propTypes = {
-};
 
 function mapStateToProps(state) {
   return {
