@@ -32,6 +32,7 @@ class TestView extends React.Component<TestViewProps,TestViewState> {
           <Link to="/">&nbsp;Home&nbsp;</Link>
           <Link to="/login">&nbsp;Login&nbsp;</Link>
           <Link to="/register">&nbsp;Register&nbsp;</Link>
+          <Link to="/about/React">&nbsp;About&nbsp;</Link>
           </p>
 
         </div>

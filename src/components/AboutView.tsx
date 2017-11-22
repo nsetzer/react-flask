@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import { Link } from 'react-router-dom'
 
 const logo = require('../svg/logo.svg');
@@ -8,7 +8,10 @@ export interface AboutViewProps {
   match: any
 }
 
-class AboutView extends Component<AboutViewProps> {
+export interface AboutViewState {
+}
+
+class AboutView extends React.Component<AboutViewProps, AboutViewState> {
 
   render() {
     return (
@@ -17,13 +20,21 @@ class AboutView extends Component<AboutViewProps> {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <p className="App-intro">
-          AboutView
+
+        <br/>
+        <p>
+        <Link to="/">&nbsp;Home&nbsp;</Link>
+        <Link to="/login">&nbsp;Login&nbsp;</Link>
+        <Link to="/register">&nbsp;Register&nbsp;</Link>
+        <Link to="/test">&nbsp;Test&nbsp;</Link>
         </p>
 
-        <ul>
-        <li><Link to="/">Home</Link></li>
-        </ul>
+        <br/>
+        <p>
+        <Link to="/about/React">&nbsp;React&nbsp;</Link>
+        <Link to="/about/TypeScript">&nbsp;TypeScript&nbsp;</Link>
+        <Link to="/about/Penguins">&nbsp;Penguins&nbsp;</Link>
+        </p>
 
         <h1>{this.props.match.params.topic}</h1>
 

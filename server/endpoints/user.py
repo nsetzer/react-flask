@@ -17,12 +17,12 @@ TWO_WEEKS = 1209600
 
 def generate_basic_token(username, password):
     """convert a username and possword into a basic token"""
-    return "Basic " + base64.b64encode(username+":"+password)
+    return "Basic " + base64.b64encode(username + ":" + password)
 
 def parse_basic_token(token):
     """return the username and password given a token"""
     if not token.startswith("Basic "):
-        raise Exception("invalid token");
+        raise Exception("Invalid Basic Token")
     return base64.b64decode(token[6:]).split(":")
 
 def generate_token(user, expiration=TWO_WEEKS):
@@ -60,14 +60,14 @@ def _requires_basic_auth_impl(f, args, kwargs, token):
         curl -u username:password -X GET localhost:4200/api/user
 
     """
-    email,password = parse_basic_token(token);
+    email, password = parse_basic_token(token)
 
-    user = User.get_user_with_email_and_password(email,password)
+    user = User.get_user_with_email_and_password(email, password)
     if user:
         g.current_user = user
         return f(*args, **kwargs)
 
-    return jsonify(message="failed to authenticate user %s"%email), 401
+    return jsonify(message="failed to authenticate user %s" % email), 401
 
 def requires_auth(f):
     @wraps(f)
@@ -93,7 +93,7 @@ def requires_auth(f):
 @requires_auth
 def get_user():
     user = g.current_user.as_dict()
-    #if user is not None:
+    # if user is not None:
     #    del user['salt']
     return jsonify(result=user)
 
@@ -122,14 +122,15 @@ def create_user():
 def get_token():
     incoming = request.get_json()
 
-    if not incoming :
+    if not incoming:
         return jsonify(error="invalid request body"), 400
     if 'email' not in incoming:
         return jsonify(error="email not specified"), 400
     if 'password' not in incoming:
         return jsonify(error="password not specified"), 400
 
-    user = User.get_user_with_email_and_password(incoming["email"], incoming["password"])
+    user = User.get_user_with_email_and_password(
+        incoming["email"], incoming["password"])
     if user:
         app.logger.info('%s logged in successfully', incoming["email"])
         return jsonify(token=generate_token(user))

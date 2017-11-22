@@ -29,10 +29,11 @@ class App extends React.Component {
         <Link to="/login">&nbsp;Login&nbsp;</Link>
         <Link to="/register">&nbsp;Register&nbsp;</Link>
         <Link to="/test">&nbsp;Test&nbsp;</Link>
+        <Link to="/about/React">&nbsp;About&nbsp;</Link>
         </p>
         <p className="App-intro">
           Your App is Now Running<br/>
-          To get started, edit <code>src/components/App.jsx</code> and save to reload.
+          To get started, edit <code>src/components/App.tsx</code> and save to reload.
         </p>
       </div>
     );

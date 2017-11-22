@@ -1,4 +1,4 @@
-import jwtDecode from 'jwt-decode';
+import * as jwtDecode from 'jwt-decode';
 
 import { createReducer } from '../utils/misc';
 import {
@@ -28,14 +28,15 @@ export default createReducer(initialState, {
             isAuthenticating: true,
             statusText: null,
         }),
-    [LOGIN_USER_SUCCESS]: (state, payload) =>
-        Object.assign({}, state, {
+    [LOGIN_USER_SUCCESS]: (state, payload) => {
+        let user = jwtDecode(payload.token) as {email:string}
+        return Object.assign({}, state, {
             isAuthenticating: false,
             isAuthenticated: true,
             token: payload.token,
-            userName: jwtDecode(payload.token).email,
+            userName: user.email,
             statusText: 'You have been successfully logged in.',
-        }),
+        })},
     [LOGIN_USER_FAILURE]: (state, payload) =>
         Object.assign({}, state, {
             isAuthenticating: false,
@@ -51,15 +52,16 @@ export default createReducer(initialState, {
             userName: null,
             statusText: 'You have been successfully logged out.',
         }),
-    [REGISTER_USER_SUCCESS]: (state, payload) =>
-        Object.assign({}, state, {
+    [REGISTER_USER_SUCCESS]: (state, payload) => {
+        let user = jwtDecode(payload.token) as {email:string}
+        return Object.assign({}, state, {
             isAuthenticating: false,
             isAuthenticated: true,
             isRegistering: false,
             token: payload.token,
-            userName: jwtDecode(payload.token).email,
+            userName: user.email,
             registerStatusText: 'You have been successfully logged in.',
-        }),
+        })},
     [REGISTER_USER_REQUEST]: (state) =>
         Object.assign({}, state, {
             isRegistering: true,
