@@ -78,14 +78,14 @@ class LoginView extends React.Component<LoginViewProps,LoginViewState> {
         this.setState({
             password_error_text: null,
         });
-    } else if (this.state.password.length >= 8) {
+    } else if (this.state.password.length >= 5) {
         password_is_valid = true;
         this.setState({
             password_error_text: null,
         });
     } else {
         this.setState({
-            password_error_text: 'Your password must be at least 8 characters',
+            password_error_text: 'Your password must be at least 5 characters',
         });
 
     }

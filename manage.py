@@ -12,17 +12,17 @@ manager.add_command('db', MigrateCommand)
 @manager.command
 def create():
     """Creates the db tables."""
-    db_init();
+    db_init()
 
 @manager.command
 def drop():
     """drop the db tables."""
-    db_drop();
+    db_drop()
 
 @manager.command
 def routes():
     """List application endpoints"""
-    list_routes();
+    list_routes()
 
 if __name__ == '__main__':
     manager.run()

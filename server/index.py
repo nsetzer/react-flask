@@ -14,6 +14,9 @@ class EnvironmentConfig(object):
     def __init__(self):
         super(EnvironmentConfig, self).__init__()
 
+        self.setenv_default("DEFAULT_ROLE", "user")
+        self.setenv_default("DEFAULT_DOMAIN", "test")
+
         self.setenv_default("ENV", "production")
         self.setenv_default("DEBUG", "False")
         self.DEBUG = (self.DEBUG.lower() == "true") or \
@@ -43,6 +46,8 @@ app.config['SQLALCHEMY_DATABASE_URI'] = cfg.DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 app.config['SECRET_KEY'] = cfg.SECRET_KEY
 app.config['DEBUG'] = cfg.DEBUG
+app.config['DEFAULT_ROLE'] = cfg.DEFAULT_ROLE
+app.config['DEFAULT_DOMAIN'] = cfg.DEFAULT_DOMAIN
 
 # handler = RotatingFileHandler('foo.log', maxBytes=10000, backupCount=1)
 # handler.setLevel(logging.INFO)

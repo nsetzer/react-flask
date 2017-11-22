@@ -2,15 +2,19 @@ from ..index import db, bcrypt
 
 class User(db.Model):
     id = db.Column(db.Integer(), primary_key=True)
-    email = db.Column(db.String(255), unique=True)
-    password = db.Column(db.String(255))
+    email = db.Column(db.String(), unique=True)
+    password = db.Column(db.String())
+    role = db.Column(db.String())
+    domain = db.Column(db.String())
 
-    def __init__(self, email, password):
-        super(User, self).__init__();
+    def __init__(self, email, password, domain, role):
+        super(User, self).__init__()
 
         self.email = email
-        self.active = True
+        self.domain = domain
+        self.role = role
         self.password = User.hashed_password(password)
+        self.active = True
 
     @staticmethod
     def hashed_password(password):
@@ -37,6 +41,8 @@ class User(db.Model):
         return None
 
     def as_dict(self):
-       data = {c.name: getattr(self, c.name) for c in self.__table__.columns}
-       del data['password']
-       return data
+        data = {c.name: getattr(self, c.name) for c in self.__table__.columns}
+        del data['password']
+        return data
+
+

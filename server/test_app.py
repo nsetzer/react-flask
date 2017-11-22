@@ -78,12 +78,16 @@ class AppTestCase(unittest.TestCase):
         attempts to request information about the user
         """
         email = "admin"
-        password = "password"
+        password = "admin"
         app = self.login(email, password)
 
         res = app.get("/api/user")
         body = json.loads(res.data)
         self.assertEqual(res.status_code, 200)
+        self.assertTrue("email" in body['result'])
+        self.assertTrue("domain" in body['result'])
+        self.assertTrue("role" in body['result'])
+        self.assertTrue("password" not in body['result'])
 
         user = body['result']
         self.assertEqual(user['email'], email)

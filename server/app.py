@@ -41,9 +41,16 @@ def list_routes():
 
 def db_init(*args):
     """initialize the database"""
+    sys.stdout.write("Creating Database...\n")
     db.create_all()
 
-    user = User("admin", "password")
+    username = "admin"
+    password = "admin"
+    domain = app.config['DEFAULT_DOMAIN']
+    role = "admin"
+
+    user = User(username, password, domain, role)
+    sys.stdout.write("Creating User: %s@%s/%s\n" % (username, domain, role))
     db.session.add(user)
 
     db.session.commit()
