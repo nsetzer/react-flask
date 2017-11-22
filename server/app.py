@@ -53,6 +53,18 @@ def db_init(*args):
     sys.stdout.write("Creating User: %s@%s/%s\n" % (username, domain, role))
     db.session.add(user)
 
+    if app.config['DEFAULT_DOMAIN'] == "test":
+        for i in range(10):
+            username = "user%03d" % i
+            password = username
+            domain = "test"
+            role = app.config['DEFAULT_ROLE']
+
+            user = User(username, password, domain, role)
+            sys.stdout.write("Creating User: %s@%s/%s\n" %
+                (username, domain, role))
+            db.session.add(user)
+
     db.session.commit()
 
 def db_drop():

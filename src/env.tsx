@@ -4,7 +4,8 @@
 let env = { 'baseUrl': "" }
 
 // NODE_ENV is either "development" or "production"
-if (process.env.NODE_ENV === "development") {
+if (process.env.NODE_ENV === "development" ||
+    process.env.NODE_ENV === "test") {
     env.baseUrl = "http://localhost:4200"
 } else {
     env.baseUrl = ""

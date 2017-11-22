@@ -77,8 +77,8 @@ class AppTestCase(unittest.TestCase):
         A test which first logs the user in, and then
         attempts to request information about the user
         """
-        email = "admin"
-        password = "admin"
+        email = "user000"
+        password = "user000"
         app = self.login(email, password)
 
         res = app.get("/api/user")
@@ -99,7 +99,7 @@ class AppTestCase(unittest.TestCase):
         A test which shows that an invalid password generates an error
         """
         body = {
-            "email": "admin",
+            "email": "user000",
             "password": "invalid+password",
         }
         res = self.app.post('/api/user/login',

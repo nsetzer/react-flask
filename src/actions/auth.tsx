@@ -51,8 +51,8 @@ export function logout() {
 
 export function logoutAndRedirect(props) {
     return (dispatch) => {
-        dispatch(logout());
-        props.history.push('/login');
+        props.history.push('/');
+        return dispatch(logout());
     };
 }
 /*
@@ -69,11 +69,9 @@ export function loginUser(props, email, password, target) {
             .then(parseJSON)
             .then(response => {
                 try {
-                    dispatch(loginUserSuccess(response.token));
-                    //this.context.history.push('/main');
                     props.history.push(target);
+                    return dispatch(loginUserSuccess(response.token));
                 } catch (e) {
-                    console.error(e)
                     dispatch(loginUserFailure({
                         response: {
                             status: 403,

@@ -1,6 +1,7 @@
 import * as jwtDecode from 'jwt-decode';
 
 import { createReducer } from '../utils/misc';
+
 import {
     LOGIN_USER_SUCCESS,
     LOGIN_USER_FAILURE,
@@ -11,7 +12,7 @@ import {
     REGISTER_USER_SUCCESS,
 } from '../constants/index';
 
-const initialState = {
+export const initialState = {
     token: null,
     userName: null,
     isAuthenticated: false,

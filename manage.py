@@ -1,3 +1,9 @@
+
+import os, sys
+
+if (sys.version_info[0] == 2):
+    raise RuntimeError("python2 not supported")
+
 from flask_script import Manager
 from flask_migrate import Migrate, MigrateCommand
 
