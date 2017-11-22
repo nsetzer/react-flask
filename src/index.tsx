@@ -4,6 +4,8 @@ import { Provider } from 'react-redux';
 
 import './index.css';
 
+// https://github.com/Lemoncode/redux-by-sample
+
 import registerServiceWorker from './utils/registerServiceWorker';
 
 import getMuiTheme from 'material-ui/styles/getMuiTheme';

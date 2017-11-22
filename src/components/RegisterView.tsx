@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 //import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux';
@@ -11,6 +11,22 @@ import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
 
+export interface RegisterViewProps {
+    registerUser: (a,b,c,d) => any,
+    registerStatusText: PropTypes.string,
+};
+
+export interface RegisterViewState {
+  email: string,
+  password: string,
+  verify_password: string,
+  email_error_text: any,
+  password_error_text: any,
+  redirectFail: string,
+  redirectSuccess: string,
+  disabled: boolean,
+};
+
 const style = {
     marginTop: 50,
     paddingBottom: 50,
@@ -20,7 +36,7 @@ const style = {
     display: 'inline-block',
 };
 
-class RegisterView extends Component {
+class RegisterView extends React.Component<RegisterViewProps,RegisterViewState> {
 
   constructor(props) {
         super(props);
@@ -148,11 +164,6 @@ class RegisterView extends Component {
       </div>
     );
   }
-};
-
-RegisterView.propTypes = {
-    registerUser: PropTypes.func,
-    registerStatusText: PropTypes.string,
 };
 
 function mapStateToProps(state) {

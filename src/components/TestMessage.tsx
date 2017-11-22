@@ -24,6 +24,8 @@ class TestMessage extends React.Component<TestMessageProps,TestMessageState> {
   constructor(props) {
     super(props);
     this.state = {"message_text":""};
+    this.updateMessageText = this.updateMessageText.bind(this)
+    this.createMessage = this.createMessage.bind(this)
     this.props.getAllMessages();
   }
 

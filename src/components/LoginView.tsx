@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 //import { Link } from 'react-router-dom'
 import { bindActionCreators } from 'redux';
@@ -6,10 +6,24 @@ import { connect } from 'react-redux';
 
 import * as actionCreators from '../actions/auth';
 
-
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';
 import Paper from 'material-ui/Paper';
+
+export interface LoginViewProps {
+    loginUser: (a,b,c,d) => any,
+    statusText: string,
+};
+
+export interface LoginViewState {
+  email: string,
+  password: string,
+  email_error_text: any,
+  password_error_text: any,
+  redirectFail: string,
+  redirectSuccess: string,
+  disabled: boolean,
+};
 
 const style = {
     marginTop: 50,
@@ -20,7 +34,7 @@ const style = {
     display: 'inline-block',
 };
 
-class LoginView extends Component {
+class LoginView extends React.Component<LoginViewProps,LoginViewState> {
 
   constructor(props) {
         super(props);
@@ -149,11 +163,6 @@ class LoginView extends Component {
   }
 };
 
-LoginView.propTypes = {
-    loginUser: PropTypes.func,
-    statusText: PropTypes.string,
-};
-
 function mapStateToProps(state) {
     return {
         isAuthenticating: state.auth.isAuthenticating,
@@ -164,8 +173,6 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators(actionCreators, dispatch);
 }
-
-
 
 export default connect(
   mapStateToProps,

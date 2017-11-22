@@ -1,12 +1,12 @@
 import * as React from 'react';
-//import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 
 const logo = require('../svg/logo.svg');
-//import './App.css';
+import './App.css';
 
-//import RandomInt from './RandomInt'
-//import TestMessage from './TestMessage'
+import RandomInt from './RandomInt'
+import TestMessage from './TestMessage'
 
 export interface TestViewProps {}
 

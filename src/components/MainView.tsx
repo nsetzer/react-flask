@@ -1,14 +1,23 @@
-import React, { Component } from 'react';
+import * as React from 'react';
 import PropTypes from 'prop-types';
 //import { Link } from 'react-router-dom'
 import { connect } from 'react-redux';
 
-import logo from '../svg/logo.svg';
+const logo = require('../svg/logo.svg');
 import './App.css';
 
 import RaisedButton from 'material-ui/RaisedButton';
 
-class MainView extends Component {
+export interface MainViewProps {
+  logoutAndRedirect: PropTypes.func,
+  userName: PropTypes.string,
+};
+
+export interface MainViewState {
+  open: boolean
+}
+
+class MainView extends React.Component<MainViewProps,MainViewState> {
 
   logout(e) {
       e.preventDefault();
@@ -37,10 +46,7 @@ class MainView extends Component {
   }
 }
 
-MainView.propTypes = {
-  logoutAndRedirect: PropTypes.func,
-  userName: PropTypes.string,
-};
+
 
 function mapStateToProps(state) {
   return {
