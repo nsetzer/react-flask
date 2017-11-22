@@ -34,13 +34,14 @@ export function requireAuthentication(Component) {
         constructor(props: any) {
             super(props);
             this.state = {loaded_if_needed: false};
+            this.checkAuth = this.checkAuth.bind(this)
         }
 
         componentWillMount() {
-            this.checkAuth();
             this.setState({
                 loaded_if_needed: false,
             });
+            this.checkAuth(this.props);
         }
 
         componentWillReceiveProps(nextProps) {
@@ -55,30 +56,28 @@ export function requireAuthentication(Component) {
                 } else {
                     validate_token( token )
                         .then(res => {
+
                             if (res.status === 200) {
                                 this.props.loginUserSuccess(token);
-                                this.setState({
-                                    loaded_if_needed: true,
-                                });
+                                this.setState({loaded_if_needed: true});
 
                             } else {
                                 props.history.push('/login');
-
                             }
                         });
 
                 }
             } else {
-                this.setState({
-                    loaded_if_needed: true,
-                });
+                this.setState({loaded_if_needed: true});
+                this.forceUpdate();
             }
         }
+
 
         render() {
             return (
                 <div>
-                    {this.props.isAuthenticated && this.state.loaded_if_needed
+                    {(this.props.isAuthenticated && this.state.loaded_if_needed)
                         ? <Component {...this.props} />
                         : null
                     }

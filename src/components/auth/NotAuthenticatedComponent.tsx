@@ -39,9 +39,11 @@ export function requireNoAuthentication(Component) {
             this.state = {
                 loaded: false,
             };
+            this.checkAuth = this.checkAuth.bind(this);
         }
 
         componentWillMount() {
+            this.setState({loaded: false});
             this.checkAuth();
         }
 
@@ -63,15 +65,11 @@ export function requireNoAuthentication(Component) {
                                 props.history.push('/main');
 
                             } else {
-                                this.setState({
-                                    loaded: true,
-                                });
+                                this.setState({loaded: true});
                             }
                         });
                 } else {
-                    this.setState({
-                        loaded: true,
-                    });
+                    this.setState({loaded: true});
                 }
             }
         }
@@ -79,7 +77,7 @@ export function requireNoAuthentication(Component) {
         render() {
             return (
                 <div>
-                    {!this.props.isAuthenticated && this.state.loaded
+                    {(!this.props.isAuthenticated && this.state.loaded)
                         ? <Component {...this.props} />
                         : null
                     }
