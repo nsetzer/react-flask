@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 const logo = require('../svg/logo.svg');
 import './App.css';
 
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 
 export interface MainViewProps {
   logoutAndRedirect: PropTypes.func,
@@ -35,11 +35,11 @@ class MainView extends React.Component<MainViewProps,MainViewState> {
           <h1 className="App-title">Welcome, {this.props.userName}</h1>
         </header>
         <br/>
-        <RaisedButton
+        <Button
           style={{ marginTop: 50 }}
-          label="Logout"
           onClick={(e) => this.logout(e)}
-        />
+          raised={true}
+        >Logout</Button>
 
       </div>
     );

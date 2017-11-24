@@ -7,6 +7,19 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/message';
 import './TestMessage.css';
 
+import TextField from 'material-ui/TextField';
+import Button from 'material-ui/Button';
+import IconButton from 'material-ui/IconButton';
+import * as UiList  from 'material-ui/List';
+import Send from 'material-ui-icons/Send';
+import Delete from 'material-ui-icons/Delete';
+
+const List = UiList.default
+const ListItem = UiList.ListItem
+const ListItemIcon = UiList.ListItemIcon
+const ListItemText = UiList.ListItemText
+const ListItemSecondaryAction = UiList.ListItemSecondaryAction
+
 export interface TestMessageProps {
   statusText: string,
   messages: any[],
@@ -33,11 +46,15 @@ class TestMessage extends React.Component<TestMessageProps,TestMessageState> {
     this.setState({message_text: event.target.value});
   }
 
-  createMessage() {
+  createMessage(event) {
     if (this.state.message_text) {
       this.props.createMessage(this.state.message_text);
       this.setState({message_text: ""});
     }
+  }
+
+  changeMessage(event) {
+    this.setState({message_text: event.target.value});
   }
 
   render() {
@@ -47,41 +64,50 @@ class TestMessage extends React.Component<TestMessageProps,TestMessageState> {
 
         {this.props.statusText}
 
-        <div className="input-group">
-          <input type="text" className="form-control"
-                placeholder="Enter Search Term"
-                value={this.state.message_text}
-                onChange={this.updateMessageText}></input>
-          <span className="input-group-btn">
-            <button className="btn btn-default"
-                    onClick={this.createMessage}>
-              <span className="glyphicon glyphicon-send"></span>
-            </button>
-         </span>
-        </div>
+        <List>
+          <ListItem>
 
-        <div>
+          <TextField
+            type="text"
+            fullWidth={true}
+            placeholder="Enter a Message"
+            onChange={(e) => this.changeMessage(e)}>
+          </TextField>
+
+          <ListItemSecondaryAction>
+            <IconButton aria-label="Create"
+             onClick={(e) => this.createMessage(e)}>
+              <Send />
+            </IconButton>
+          </ListItemSecondaryAction>
+
+          </ListItem>
+        </List>
 
         <br/>
-        <ol className="list-group">
+
+        <List>
         {
+          //onClick={() => {this.props.deleteMessage(msg.id)}
           (this.props.messages) ? this.props.messages.map( (msg) => {
-            return <li key={msg.id} className="list-group-item">
-                     {msg.text}
-                     <div className="pull-right">
-                     <a onClick={() => {this.props.deleteMessage(msg.id)}}>
-                       <span className="glyphicon glyphicon-trash App-red-icon"></span>
-                     </a>
-                     </div>
-                   </li>
+            return <ListItem
+                     key={msg.id}>
+                     <ListItemText primary={msg.text}/>
+                     <ListItemSecondaryAction>
+                      <IconButton aria-label="Delete"
+                       onClick={() => {this.props.deleteMessage(msg.id)}}>
+                        <Delete />
+                      </IconButton>
+                    </ListItemSecondaryAction>
+                   </ListItem>
             }) : <div>No Messages To Display</div>
         }
-        </ol>
+        </List>
+
         <br/>
         <br/>
         <br/>
         </div>
-      </div>
     );
   }
 }

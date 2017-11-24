@@ -7,8 +7,9 @@ import { connect } from 'react-redux';
 import * as actionCreators from '../actions/auth';
 
 import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
+import Button from 'material-ui/Button';
 import Paper from 'material-ui/Paper';
+import Grid from 'material-ui/Grid';
 
 export interface LoginViewProps {
     loginUser: (a,b,c,d) => any,
@@ -78,16 +79,8 @@ class LoginView extends React.Component<LoginViewProps,LoginViewState> {
         this.setState({
             password_error_text: null,
         });
-    } else if (this.state.password.length >= 5) {
-        password_is_valid = true;
-        this.setState({
-            password_error_text: null,
-        });
     } else {
-        this.setState({
-            password_error_text: 'Your password must be at least 5 characters',
-        });
-
+        password_is_valid = true;
     }
 
     if (email_is_valid && password_is_valid) {
@@ -115,13 +108,25 @@ class LoginView extends React.Component<LoginViewProps,LoginViewState> {
     }
 
   login(e) {
+      let state = {
+        password_error_text: "",
+        email_error_text: "",
+      }
       e.preventDefault();
+      if (this.state.password.length < 5) {
+        state.password_error_text = "Passwords must be more than 5 characters"
+        this.setState(state)
+        return
+      }
       this.props.loginUser(this.props, this.state.email, this.state.password, this.state.redirectSuccess);
   }
 
   render() {
     return (
-      <div className="col-xs-12 col-md-6 col-md-offset-3" onKeyPress={(e) => this._handleKeyPress(e)}>
+
+      <div onKeyPress={(e) => this._handleKeyPress(e)}>
+        <Grid container justify="center">
+        <Grid item  xs={12} sm={6}>
         <Paper style={style}>
           {
               this.props.statusText &&
@@ -133,31 +138,39 @@ class LoginView extends React.Component<LoginViewProps,LoginViewState> {
           <form>
             <div className="col-md-12">
                 <TextField
-                  hintText="Email"
-                  floatingLabelText="Email"
+                  required
+                  label="Email"
                   type="email"
-                  errorText={this.state.email_error_text}
+                  error={this.state.email_error_text}
                   onChange={(e) => this.changeValue(e, 'email')}
                 />
             </div>
+            {
+                this.state.email_error_text ?
+                    <div>{this.state.email_error_text}<br/></div> :
+                    null
+            }
             <div className="col-md-12">
                 <TextField
-                  hintText="Password"
-                  floatingLabelText="Password"
+                  required
+                  label="Password"
                   type="password"
-                  errorText={this.state.password_error_text}
+                  error={this.state.password_error_text}
                   onChange={(e) => this.changeValue(e, 'password')}
                 />
             </div>
+            {this.state.password_error_text?<div>{this.state.password_error_text}<br/></div>:null}
 
-            <RaisedButton
+            <Button
+              raised={true}
               disabled={this.state.disabled}
               style={{ marginTop: 50 }}
-              label="Submit"
               onClick={(e) => this.login(e)}
-            />
+            >Submit</Button>
           </form>
         </Paper>
+        </Grid>
+        </Grid>
       </div>
     );
   }
